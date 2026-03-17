@@ -45,10 +45,33 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.hud-corner.tl { top: 40px; left: 40px; border-right: none; border-bottom: none; }
-.hud-corner.tr { top: 40px; right: 40px; border-left: none; border-bottom: none; }
-.hud-corner.bl { bottom: 40px; left: 40px; border-right: none; border-top: none; }
-.hud-corner.br { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+.hud-corner.tl {
+  top: 40px;
+  left: 40px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hud-corner.tr {
+  top: 40px;
+  right: 40px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.hud-corner.bl {
+  bottom: 40px;
+  left: 40px;
+  border-right: none;
+  border-top: none;
+}
+
+.hud-corner.br {
+  bottom: 40px;
+  right: 40px;
+  border-left: none;
+  border-top: none;
+}
 
 .section {
   position: absolute;

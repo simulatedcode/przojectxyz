@@ -28,11 +28,11 @@ export default function Page() {
           zIndex: -1 // Ensure it stays behind UI
         }}
 
-        camera={{ position: [0, 0.65, 3] }}>
+        camera={{ position: [10, 0.65, 0] }}>
 
         {/* 🌍 GLOBAL LIGHTING */}
         <Environment preset="city" />
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={0.2} />
         <directionalLight position={[5, 5, 5]} />
         <TimelineSystem />
         <CameraRig />

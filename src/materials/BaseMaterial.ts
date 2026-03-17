@@ -21,7 +21,7 @@ export function createBaseMaterial() {
     `,
     uniforms: {
       uTime: { value: 0 },
-      uColor: { value: new Color(0.8, 0.9, 1.0) }, // Cinematic cool-white
+      uColor: { value: new Color(0.8, 0.9, 1.0) }, // Cinematic White
       uFresnelIntensity: { value: 1.2 },           // Subtly boosted
       uReflectionMix: { value: 0.8 },              // Reflective glass feel
       uEnvMap: { value: null },                    // Set by Scene

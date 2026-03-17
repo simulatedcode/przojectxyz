@@ -20,23 +20,22 @@ export default function ProjectsText() {
                 ref={containerRef}
                 className="section align-left"
             >
-                <div className="mb-2 opacity-40 font-mono text-[10px] tracking-[0.5em]">WORK_ARCHIVE // DATA_STREAM</div>
                 <h1 className="text-8xl font-black mb-4 tracking-tighter">
-                  <SplitText text="SELECTED" /><br/>
-                  <SplitText text="WORKS" />
+                    <SplitText text="SELECTED" /><br />
+                    <SplitText text="WORKS" />
                 </h1>
                 <p className="text-xl uppercase tracking-[0.3em] font-light opacity-60">
-                  <SplitText text="Engineering digital landscapes" />
+                    <SplitText text="Engineering digital landscapes" />
                 </p>
             </div>
 
             {/* 🛸 HUD Tethered Label */}
-            <div 
+            <div
                 className="absolute pointer-events-none z-50 flex flex-col items-start gap-1"
-                style={{ 
+                style={{
                     transform: `translate3d(${trackingData.x + 40}px, ${trackingData.y + 40}px, 0)`,
                     display: trackingData.visible ? 'flex' : 'none',
-                    opacity: visibility 
+                    opacity: visibility
                 }}
             >
                 {/* 📐 Lead Line (Tether) */}
@@ -51,6 +50,14 @@ export default function ProjectsText() {
                 <div className="text-[9px] font-mono text-white/40 pl-5">
                     STATUS: RETRIEVING_DATA
                 </div>
+            </div>
+
+            {/* 📟 HUD Metadata: Locked to Top Left */}
+            <div
+                className="fixed px-4 top-12 opacity-40 font-mono text-[8px] tracking-[0.5em] z-50"
+                style={{ opacity: visibility * 0.4 }}
+            >
+                WORK_ARCHIVE // DATA_STREAM
             </div>
         </>
     )

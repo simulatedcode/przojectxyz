@@ -20,7 +20,6 @@ export default function IntroText() {
                 ref={containerRef}
                 className="section align-left"
             >
-                <div className="mb-2 opacity-40 font-mono text-[10px] tracking-[0.5em]">SYSTEM_BOOT // INITIALIZING</div>
                 <h1 className="text-8xl font-black mb-4 tracking-tighter">
                     <SplitText text="WELCOME" />
                 </h1>
@@ -49,6 +48,14 @@ export default function IntroText() {
                 <div className="text-[9px] font-mono text-white/40 pl-5">
                     POS: {trackingData.x.toFixed(0)}, {trackingData.y.toFixed(0)}
                 </div>
+            </div>
+
+            {/* 📟 HUD Metadata: Locked to Top Left */}
+            <div
+                className="fixed px-4 top-12 opacity-40 font-mono text-[8px] tracking-[0.5em] z-50"
+                style={{ opacity: visibility * 0.4 }}
+            >
+                SYSTEM_BOOT // INITIALIZING
             </div>
         </>
     )
