@@ -2,23 +2,42 @@
 'use client'
 
 import { useFrame, useThree } from '@react-three/fiber'
-import { useScrollStore } from '@/store/useScrollStore'
-import { useRef } from 'react'
-import { Vector3 } from 'three'
+import { useTimeline } from '@/core/timeline/useTimeline'
+import { interpolate } from '@/core/timeline/timeline'
 
+/**
+ * 🎥 CameraRig
+ * Controls the camera path using cinematic keyframes.
+ */
 export default function CameraRig() {
-  const progress = useScrollStore((s) => s.progress)
+  const globalProgress = useTimeline((s) => s.progress)
   const { camera } = useThree()
 
-  const targetPosition = useRef(new Vector3())
+  // Define Cinematic Path
+  const xPath = [
+    { at: 0, value: 0 },
+    { at: 0.3, value: 2 },
+    { at: 0.6, value: -2 },
+    { at: 1, value: 0 }
+  ]
+
+  const yPath = [
+    { at: 0, value: 0 },
+    { at: 0.5, value: 1 },
+    { at: 1, value: 0 }
+  ]
+
+  const zPath = [
+    { at: 0, value: 5 },
+    { at: 0.5, value: 3 },
+    { at: 1, value: 8 }
+  ]
 
   useFrame(() => {
-    const p = progress
-
-    camera.position.x = Math.sin(p * Math.PI) * 2
-    camera.position.z = 5 - p * 2
-    camera.position.y = Math.sin(p * Math.PI) * 0.5
-
+    camera.position.x = interpolate(globalProgress, xPath)
+    camera.position.y = interpolate(globalProgress, yPath)
+    camera.position.z = interpolate(globalProgress, zPath)
+    
     camera.lookAt(0, 0, 0)
   })
 

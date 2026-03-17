@@ -1,12 +1,16 @@
 'use client'
 
-import { useSceneSegment } from '@/core/scene/useSceneSegment'
+import { useSegment } from '@/core/timeline/useKeyframe'
 import { useTextAnimation } from '@/ui/hooks/useTextAnimation'
 import { useSceneStore } from '@/store/useSceneStore'
 import SplitText from '@/ui/components/SplitText'
 
+/**
+ * 🛠 ProjectsText
+ * Responsive UI layer for the Selected Works section.
+ */
 export default function ProjectsText() {
-    const { progress, visibility } = useSceneSegment(0.6, 1.0)
+    const { progress, visibility } = useSegment(0.6, 1.0)
     const containerRef = useTextAnimation(progress, visibility)
     const trackingData = useSceneStore((state) => state.projectsTracking)
 

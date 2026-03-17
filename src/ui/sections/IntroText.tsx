@@ -1,16 +1,17 @@
 'use client'
 
-import { useSceneSegment } from '@/core/scene/useSceneSegment'
+import { useSegment } from '@/core/timeline/useKeyframe'
 import { useTextAnimation } from '@/ui/hooks/useTextAnimation'
-import { useWorldToScreen } from '@/ui/hooks/useWorldToScreen'
 import { useSceneStore } from '@/store/useSceneStore'
 import SplitText from '@/ui/components/SplitText'
 
+/**
+ * 📝 IntroText
+ * Responsive UI layer for the Intro section.
+ */
 export default function IntroText() {
-    const { progress, visibility } = useSceneSegment(0.0, 0.3)
+    const { progress, visibility } = useSegment(0.0, 0.3)
     const containerRef = useTextAnimation(progress, visibility)
-
-    // 🎯 3D Tracking Logic
     const trackingData = useSceneStore((state) => state.introTracking)
 
     return (

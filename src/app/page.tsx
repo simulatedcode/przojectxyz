@@ -2,6 +2,7 @@
 
 import { Canvas } from '@react-three/fiber'
 import TimelineSystem from '@/core/timeline/TimelineSystem'
+import ScrollManager from '@/core/timeline/ScrollManager'
 import CameraRig from '@/core/camera/CameraRig'
 import MainScene from '@/scenes/MainScene'
 import { Environment } from '@react-three/drei'
@@ -10,10 +11,11 @@ import Overlay from '@/ui/Overlay'
 export default function Page() {
   return (
     <>
-      <TimelineSystem />
-
       {/* UI scroll space */}
       <div className="h-[400vh]" />
+
+      {/* 🛰 EXTERNAL ORCHESTRATOR */}
+      <ScrollManager />
       <Overlay />
 
       <Canvas
@@ -23,14 +25,16 @@ export default function Page() {
           left: 0,
           width: '100vw',
           height: '100vh',
+          zIndex: -1 // Ensure it stays behind UI
         }}
 
-        camera={{ position: [0, 0, 5] }}>
+        camera={{ position: [0, 0.65, 3] }}>
 
         {/* 🌍 GLOBAL LIGHTING */}
         <Environment preset="city" />
-        <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} />
+        <TimelineSystem />
         <CameraRig />
         <MainScene />
       </Canvas>
