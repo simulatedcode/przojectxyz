@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import TimelineSystem from '@/core/timeline/TimelineSystem'
 import CameraRig from '@/core/camera/CameraRig'
 import MainScene from '@/scenes/MainScene'
+import { Environment } from '@react-three/drei'
 
 export default function Page() {
   return (
@@ -21,8 +22,12 @@ export default function Page() {
           width: '100vw',
           height: '100vh',
         }}
+
         camera={{ position: [0, 0, 5] }}>
-        <ambientLight intensity={0.5} />
+
+        {/* 🌍 GLOBAL LIGHTING */}
+        <Environment preset="city" />
+        <ambientLight intensity={0.1} />
         <directionalLight position={[5, 5, 5]} />
         <CameraRig />
         <MainScene />
