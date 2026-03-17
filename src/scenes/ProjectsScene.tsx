@@ -5,9 +5,13 @@ import { useRef, useEffect } from 'react'
 import { Mesh, ShaderMaterial, Color } from 'three'
 import { useSceneSegment } from '@/core/scene/useSceneSegment'
 import { useBaseMaterial } from '@/materials/useBaseMaterial'
+import { useSceneStore } from '@/store/useSceneStore'
+import { useWorldToScreen } from '@/ui/hooks/useWorldToScreen'
 
 export default function ProjectsScene() {
   const mesh = useRef<Mesh>(null!)
+  const setProjectsMesh = useSceneStore((state) => state.setProjectsMesh)
+  const setProjectsTracking = useSceneStore((state) => state.setProjectsTracking)
   const material = useBaseMaterial() as ShaderMaterial
 
   const { scene } = useThree()
@@ -21,6 +25,16 @@ export default function ProjectsScene() {
       material.uniforms.uEnvMap.value = scene.environment
     }
   }, [scene, material])
+
+  // 📡 publish ref for tracking
+  useEffect(() => {
+    if (mesh.current) {
+      setProjectsMesh(mesh)
+    }
+  }, [setProjectsMesh])
+
+  // 🎯 Track screen coordinates (Inside Canvas)
+  useWorldToScreen(mesh, setProjectsTracking)
 
   useFrame(() => {
     const m = mesh.current

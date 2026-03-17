@@ -5,9 +5,13 @@ import { useRef, useEffect } from 'react'
 import { Mesh, ShaderMaterial } from 'three'
 import { useSceneSegment } from '@/core/scene/useSceneSegment'
 import { useBaseMaterial } from '@/materials/useBaseMaterial'
+import { useSceneStore } from '@/store/useSceneStore'
+import { useWorldToScreen } from '@/ui/hooks/useWorldToScreen'
 
 export default function HeroScene() {
   const mesh = useRef<Mesh>(null!)
+  const setHeroMesh = useSceneStore((state) => state.setHeroMesh)
+  const setHeroTracking = useSceneStore((state) => state.setHeroTracking)
   const material = useBaseMaterial() as ShaderMaterial
 
   const { scene } = useThree()
@@ -21,6 +25,16 @@ export default function HeroScene() {
       material.uniforms.uEnvMap.value = scene.environment
     }
   }, [scene, material])
+  
+  // 📡 publish ref for tracking
+  useEffect(() => {
+    if (mesh.current) {
+      setHeroMesh(mesh)
+    }
+  }, [setHeroMesh])
+
+  // 🎯 Track screen coordinates (Inside Canvas)
+  useWorldToScreen(mesh, setHeroTracking)
 
   useFrame(() => {
     const m = mesh.current

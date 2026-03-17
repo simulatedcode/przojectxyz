@@ -5,13 +5,27 @@ import { useRef, useEffect } from 'react'
 import { Mesh, ShaderMaterial } from 'three'
 import { useSceneSegment } from '@/core/scene/useSceneSegment'
 import { useBaseMaterial } from '@/materials/useBaseMaterial'
+import { useSceneStore } from '@/store/useSceneStore'
+import { useWorldToScreen } from '@/ui/hooks/useWorldToScreen'
 
 export default function IntroScene() {
   const mesh = useRef<Mesh>(null!)
+  const setIntroMesh = useSceneStore((state) => state.setIntroMesh)
+  const setIntroTracking = useSceneStore((state) => state.setIntroTracking)
   const material = useBaseMaterial() as ShaderMaterial
 
   const { scene } = useThree()
   const { progress, visibility } = useSceneSegment(0.0, 0.3)
+
+  // 📡 publish ref for UI tracking
+  useEffect(() => {
+    if (mesh.current) {
+      setIntroMesh(mesh)
+    }
+  }, [setIntroMesh])
+
+  // 🎯 Track screen coordinates for UI (Inside Canvas context)
+  useWorldToScreen(mesh, setIntroTracking)
 
   // 🌍 assign environment map once ready
   useEffect(() => {
