@@ -38,8 +38,8 @@ export default function IntroText() {
                 }}
             >
                 {/* 📐 Lead Line (Tether) */}
-                <div className="w-px h-10 bg-white/20 -translate-x-10 translate-y-10 rotate-45 mix-blend-exclusion" />
-                <div className="flex items-center gap-3 mix-blend-exclusion">
+                <div className="w-px h-10 bg-white/20 -translate-x-10 translate-y-10 rotate-45" />
+                <div className="flex items-center gap-3">
                     <div className="w-2 h-2 border border-white/40 rotate-45" />
                     <div className="text-[10px] font-mono tracking-widest text-white/80 uppercase">
                         Intro_Mesh_Sync

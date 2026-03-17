@@ -11,6 +11,9 @@ export default function Overlay() {
 
     return (
         <div className="overlay">
+            {/* 🏁 SCANLINE / DOT OVERLAY */}
+            <div className="dot-overlay" />
+
             {/* 🛡 GLOBAL HUD FRAME */}
             <div className="hud-corner tl" />
             <div className="hud-corner tr" />
