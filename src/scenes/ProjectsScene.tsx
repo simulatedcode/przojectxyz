@@ -2,36 +2,54 @@
 
 import { useFrame, useThree } from '@react-three/fiber'
 import { useRef, useEffect } from 'react'
-import { Mesh, ShaderMaterial } from 'three'
+import { Mesh, ShaderMaterial, Color } from 'three'
 import { useSceneSegment } from '@/core/scene/useSceneSegment'
 import { useBaseMaterial } from '@/materials/useBaseMaterial'
 
 export default function ProjectsScene() {
   const mesh = useRef<Mesh>(null!)
   const material = useBaseMaterial() as ShaderMaterial
-  const { scene } = useThree()
-  const { progress, isActive } = useSceneSegment(0.6, 1.0)
 
+  const { scene } = useThree()
+  const { progress, visibility } = useSceneSegment(0.6, 1.0)
+
+  // ✅ safe envMap
   useEffect(() => {
     if (!scene.environment) return
-    material.uniforms.uEnvMap.value = scene.environment
+
+    if (material.uniforms.uEnvMap) {
+      material.uniforms.uEnvMap.value = scene.environment
+    }
   }, [scene, material])
 
   useFrame(() => {
-    if (!mesh.current || !material?.uniforms) return
+    const m = mesh.current
+    const u = material.uniforms
 
-    mesh.current.position.x = -2 + progress * 4
+    if (!m || !u) return
 
-    // ✅ directly update material
-    material.uniforms.uFresnelIntensity.value = 0.5 + progress * 0.5
-    material.uniforms.uColor.value = [1, 0.5, 0] // orange-ish
+    // 👁 visibility (render optimization)
+    m.visible = visibility > 0.01
+
+    // 🎬 transform
+    m.position.x = -2 + progress * 4
+
+    // 🎨 color (CORRECT TYPE)
+    u.uColor.value = new Color(1, 0.5, 0)
+
+    // 🎨 opacity (correct blending)
+    if (u.uOpacity) {
+      u.uOpacity.value = visibility
+    }
+
+    // 🔥 cinematic lighting (independent from opacity)
+    u.uFresnelIntensity.value = 1.0 + progress * 1.5
+    u.uReflectionMix.value = 0.2 + progress * 0.6
   })
-
-  if (!isActive) return null
 
   return (
     <mesh ref={mesh} material={material}>
-      <torusGeometry />
+      <torusGeometry args={[1, 0.3, 32, 100]} />
     </mesh>
   )
 }

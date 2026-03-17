@@ -9,14 +9,16 @@ import { Vector3 } from 'three'
 export default function CameraRig() {
   const progress = useScrollStore((s) => s.progress)
   const { camera } = useThree()
-  
+
   const targetPosition = useRef(new Vector3())
 
   useFrame(() => {
-    if (!camera) return
-    
-    targetPosition.current.set(progress * 5, 0, 5 - progress * 3)
-    camera.position.copy(targetPosition.current)
+    const p = progress
+
+    camera.position.x = Math.sin(p * Math.PI) * 2
+    camera.position.z = 5 - p * 2
+    camera.position.y = Math.sin(p * Math.PI) * 0.5
+
     camera.lookAt(0, 0, 0)
   })
 

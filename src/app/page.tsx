@@ -5,6 +5,7 @@ import TimelineSystem from '@/core/timeline/TimelineSystem'
 import CameraRig from '@/core/camera/CameraRig'
 import MainScene from '@/scenes/MainScene'
 import { Environment } from '@react-three/drei'
+import Overlay from '@/ui/Overlay'
 
 export default function Page() {
   return (
@@ -13,6 +14,7 @@ export default function Page() {
 
       {/* UI scroll space */}
       <div className="h-[400vh]" />
+      <Overlay />
 
       <Canvas
         style={{

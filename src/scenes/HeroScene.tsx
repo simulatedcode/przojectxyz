@@ -9,30 +9,45 @@ import { useBaseMaterial } from '@/materials/useBaseMaterial'
 export default function HeroScene() {
   const mesh = useRef<Mesh>(null!)
   const material = useBaseMaterial() as ShaderMaterial
-  const { scene } = useThree()
-  const { progress, isActive } = useSceneSegment(0.3, 0.6)
 
+  const { scene } = useThree()
+  const { progress, visibility } = useSceneSegment(0.3, 0.6)
+
+  // ✅ safer envMap assignment
   useEffect(() => {
     if (!scene.environment) return
-    material.uniforms.uEnvMap.value = scene.environment
+
+    if (material.uniforms.uEnvMap) {
+      material.uniforms.uEnvMap.value = scene.environment
+    }
   }, [scene, material])
 
   useFrame(() => {
-    if (!mesh.current || !material?.uniforms) return
+    const m = mesh.current
+    const u = material.uniforms
 
-    mesh.current.rotation.y = progress * Math.PI * 2
-    mesh.current.scale.setScalar(1 + progress)
+    if (!m || !u) return
 
-    // ✅ directly update material
-    material.uniforms.uFresnelIntensity.value = 1.0 + progress * 2.0
-    material.uniforms.uReflectionMix.value = progress
+    // 👁 visibility (render optimization)
+    m.visible = visibility > 0.01
+
+    // 🎬 transform
+    m.rotation.y = progress * Math.PI * 2
+    m.scale.setScalar(1 + progress)
+
+    // 🎨 opacity (correct blending)
+    if (u.uOpacity) {
+      u.uOpacity.value = visibility
+    }
+
+    // 🔥 cinematic lighting (independent from opacity)
+    u.uFresnelIntensity.value = 2.0 + progress * 2.5
+    u.uReflectionMix.value = 0.3 + progress * 0.7
   })
-
-  if (!isActive) return null
 
   return (
     <mesh ref={mesh} material={material}>
-      <sphereGeometry />
+      <sphereGeometry args={[1, 64, 64]} />
     </mesh>
   )
 }

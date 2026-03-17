@@ -10,23 +10,40 @@ export default function IntroScene() {
   const mesh = useRef<Mesh>(null!)
   const material = useBaseMaterial() as ShaderMaterial
 
-  const { scene } = useThree() // ✅ ADD
-  const { progress } = useSceneSegment(0.0, 0.3)
+  const { scene } = useThree()
+  const { progress, visibility } = useSceneSegment(0.0, 0.3)
 
-  // ✅ ADD THIS BLOCK
+  // 🌍 assign environment map once ready
   useEffect(() => {
     if (!scene.environment) return
-    material.uniforms.uEnvMap.value = scene.environment
+
+    const u = material.uniforms
+    if (u.uEnvMap) {
+      u.uEnvMap.value = scene.environment
+    }
   }, [scene, material])
 
   useFrame(() => {
-    if (!mesh.current || !material?.uniforms) return
+    const m = mesh.current
+    const u = material.uniforms
 
-    mesh.current.position.y = 2 - progress * 2
-    mesh.current.rotation.y = progress * Math.PI
+    if (!m || !u) return
 
-    material.uniforms.uFresnelIntensity.value = progress * 1.5
-    material.uniforms.uReflectionMix.value = progress * 0.5
+    // 🎬 transform
+    m.position.y = 2 - progress * 2
+    m.rotation.y = progress * Math.PI
+
+    // 👁 visibility (render optimization)
+    m.visible = visibility > 0.01
+
+    // 🎨 opacity (correct blending)
+    if (u.uOpacity) {
+      u.uOpacity.value = visibility
+    }
+
+    // 🔥 cinematic lighting (independent from opacity)
+    u.uFresnelIntensity.value = 1.5 + progress * 2.0
+    u.uReflectionMix.value = 0.2 + progress * 0.8
   })
 
   return (

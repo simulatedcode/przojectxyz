@@ -1,6 +1,10 @@
+precision highp float;
+
 uniform vec3 uColor;
 uniform float uReflectionMix;
+uniform float uFresnelIntensity;
 uniform samplerCube uEnvMap;
+uniform float uOpacity;
 
 varying vec3 vNormal;
 varying vec3 vViewDir;
@@ -11,11 +15,16 @@ void main() {
 
   vec3 color = baseColor(uColor);
 
-  float fresnel = fresnelEffect(normal, viewDir, 1.0, 3.0);
+  // 🔥 use uniform (not hardcoded)
+  float fresnel = fresnelEffect(normal, viewDir, uFresnelIntensity, 5.0);
+
   vec3 reflection = reflectionEffect(uEnvMap, normal, viewDir, uReflectionMix);
 
-  color += fresnel;
-  color = mix(color, reflection, uReflectionMix);
+  // 🔥 fresnel-driven reflection (cinematic)
+  float reflectionStrength = fresnel * uReflectionMix;
 
-  gl_FragColor = vec4(color, 1.0);
+  color += fresnel;
+  color = mix(color, reflection, reflectionStrength);
+
+  gl_FragColor = vec4(color, uOpacity);
 }

@@ -22,6 +22,10 @@ export function createBaseMaterial() {
       uFresnelIntensity: { value: 1.0 },
       uReflectionMix: { value: 0.5 },
       uEnvMap: { value: null },
+      uOpacity: { value: 1.0 },
     },
+    transparent: true,
+    depthWrite: true,
+    depthTest: true,
   })
 }
