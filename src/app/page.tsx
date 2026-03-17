@@ -1,0 +1,32 @@
+"use client"
+
+import { Canvas } from '@react-three/fiber'
+import TimelineSystem from '@/core/timeline/TimelineSystem'
+import CameraRig from '@/core/camera/CameraRig'
+import MainScene from '@/scenes/MainScene'
+
+export default function Page() {
+  return (
+    <>
+      <TimelineSystem />
+
+      {/* UI scroll space */}
+      <div className="h-[400vh]" />
+
+      <Canvas
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+        }}
+        camera={{ position: [0, 0, 5] }}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} />
+        <CameraRig />
+        <MainScene />
+      </Canvas>
+    </>
+  )
+}
