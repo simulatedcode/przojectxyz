@@ -18,28 +18,36 @@ export default function IntroText() {
         <>
             <div
                 ref={containerRef}
-                className="section"
+                className="section align-left"
             >
-                <h1 className="text-6xl font-black mb-4 tracking-tighter">
+                <div className="mb-2 opacity-40 font-mono text-[10px] tracking-[0.5em]">SYSTEM_BOOT // INITIALIZING</div>
+                <h1 className="text-8xl font-black mb-4 tracking-tighter">
                     <SplitText text="WELCOME" />
                 </h1>
-                <p className="text-xl uppercase tracking-[0.3em] font-light opacity-80">
-                    <SplitText text="Immersive experience" />
+                <p className="text-xl uppercase tracking-[0.3em] font-light opacity-60">
+                    <SplitText text="Immersive visualization" />
                 </p>
             </div>
 
-            {/* 3D Tracking Label */}
+            {/* 🛸 HUD Tethered Label */}
             <div
-                className="absolute pointer-events-none z-50 flex items-center gap-4 whitespace-nowrap"
+                className="absolute pointer-events-none z-50 flex flex-col items-start gap-1"
                 style={{
-                    transform: `translate3d(${trackingData.x}px, ${trackingData.y}px, 0) translate(-50%, -50%)`,
+                    transform: `translate3d(${trackingData.x + 40}px, ${trackingData.y - 40}px, 0)`,
                     display: trackingData.visible ? 'flex' : 'none',
                     opacity: visibility
                 }}
             >
-                <div className="w-8 h-px bg-white opacity-40" />
-                <div className="text-[10px] font-mono tracking-widest text-white/60">
-                    SEC_01 // 3D_TRACK_ACTIVE
+                {/* 📐 Lead Line (Tether) */}
+                <div className="w-px h-10 bg-white/20 -translate-x-10 translate-y-10 rotate-45 mix-blend-exclusion" />
+                <div className="flex items-center gap-3 mix-blend-exclusion">
+                    <div className="w-2 h-2 border border-white/40 rotate-45" />
+                    <div className="text-[10px] font-mono tracking-widest text-white/80 uppercase">
+                        Intro_Mesh_Sync
+                    </div>
+                </div>
+                <div className="text-[9px] font-mono text-white/40 pl-5">
+                    POS: {trackingData.x.toFixed(0)}, {trackingData.y.toFixed(0)}
                 </div>
             </div>
         </>

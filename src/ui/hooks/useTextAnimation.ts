@@ -83,17 +83,21 @@ export function useTextAnimation(progress: number, visibility: number) {
     // Floating micro-animation for secondary depth
     const floatY = Math.sin(Date.now() * 0.001) * 5
 
-    // Unified 3D transformation with "SUPER PREMIUM" Lag
+    // Unified 3D transformation with HUD Jitter + High-Fidelity Lag
+    const jitterX = (Math.random() - 0.5) * (visibility < 0.5 ? 2 : 0.5)
+    const jitterY = (Math.random() - 0.5) * (visibility < 0.5 ? 2 : 0.5)
+
     gsap.to(containerRef.current, {
-      x: tx, 
-      y: ty + floatY,
+      x: tx + jitterX, 
+      y: ty + floatY + jitterY,
       z: tz,
       rotateY: ry,
       rotateX: rx,
       scale: s,
-      duration: 0.6, // Refined "lag" duration
-      ease: 'expo.out', // Most premium, decelerating curve
+      duration: 0.8, // Slightly heavier lag for "scanning" feel
+      ease: 'expo.out',
       overwrite: 'auto',
+      delay: visibility < 0.1 ? 0.1 : 0, // Subtle stagger for new arrivals
     })
   }, [mouse, visibility, progress])
 

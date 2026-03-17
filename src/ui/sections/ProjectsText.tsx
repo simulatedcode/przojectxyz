@@ -18,28 +18,38 @@ export default function ProjectsText() {
         <>
             <div
                 ref={containerRef}
-                className="section"
+                className="section align-left"
             >
-                <h1 className="text-6xl font-black mb-4 tracking-tighter">
-                  <SplitText text="SELECTED WORKS" />
+                <div className="mb-2 opacity-40 font-mono text-[10px] tracking-[0.5em]">WORK_ARCHIVE // DATA_STREAM</div>
+                <h1 className="text-8xl font-black mb-4 tracking-tighter">
+                  <SplitText text="SELECTED" /><br/>
+                  <SplitText text="WORKS" />
                 </h1>
-                <p className="text-xl uppercase tracking-[0.3em] font-light opacity-80">
+                <p className="text-xl uppercase tracking-[0.3em] font-light opacity-60">
                   <SplitText text="Engineering digital landscapes" />
                 </p>
             </div>
 
-            {/* 3D Tracking Label */}
+            {/* 🛸 HUD Tethered Label */}
             <div 
-                className="absolute pointer-events-none z-50 flex items-center gap-4 whitespace-nowrap"
+                className="absolute pointer-events-none z-50 flex flex-col items-start gap-1"
                 style={{ 
-                    transform: `translate3d(${trackingData.x}px, ${trackingData.y}px, 0) translate(-50%, -50%)`,
+                    transform: `translate3d(${trackingData.x + 40}px, ${trackingData.y + 40}px, 0)`,
                     display: trackingData.visible ? 'flex' : 'none',
                     opacity: visibility 
                 }}
             >
-                <div className="w-8 h-px bg-white opacity-40" />
-                <div className="text-[10px] font-mono tracking-widest text-white/60">
-                    PROJECT_01 // ARCHIVE_DAT
+                {/* 📐 Lead Line (Tether) */}
+                <div className="w-px h-10 bg-white/20 -translate-x-10 -translate-y-10 -rotate-45 mix-blend-exclusion" />
+
+                <div className="flex items-center gap-3 mix-blend-exclusion">
+                    <div className="w-2 h-2 border border-white/40 rotate-45" />
+                    <div className="text-[10px] font-mono tracking-widest text-white/80 uppercase">
+                        Archive_Node_01
+                    </div>
+                </div>
+                <div className="text-[9px] font-mono text-white/40 pl-5">
+                    STATUS: RETRIEVING_DATA
                 </div>
             </div>
         </>
