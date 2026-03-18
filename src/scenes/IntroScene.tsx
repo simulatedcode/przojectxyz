@@ -19,7 +19,7 @@ export default function IntroScene() {
   const material = useBaseMaterial() as ShaderMaterial
 
   const { scene } = useThree()
-  
+
   // Define local segment progress (0.0 → 0.3 on global timeline)
   const { progress, visibility } = useSegment(0.0, 0.3)
 
@@ -54,10 +54,13 @@ export default function IntroScene() {
 
     // 🎨 shader uniforms sync
     if (u.uOpacity) u.uOpacity.value = visibility
-    
+
     // AAA-grade lighting transitions
     u.uFresnelIntensity.value = 1.5 + progress * 2.0
     u.uReflectionMix.value = 0.2 + progress * 0.8
+
+    u.uEnvMap.value = scene.environment
+    u.uTime.value = Date.now() * 0.001
   })
 
   return (
