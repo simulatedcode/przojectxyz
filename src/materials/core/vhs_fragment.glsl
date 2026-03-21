@@ -57,7 +57,7 @@ void main() {
   // ===============================
   // 📟 5. FILM GRAIN (NOT NOISE)
   // ===============================
-  float grain = vhsGrain(pixelUV, uTime, 0.08 * uVhsStrength);
+  float grain = vhsGrain(pixelUV, uTime, 0.01 * uVhsStrength);
 
   // ===============================
   // ⚡ 6. VHS DISTORTION (ADDED)

@@ -20,7 +20,7 @@ export function createVHSMaterial() {
       uTime: { value: 0 },
       uColor: { value: new Color(0.8, 0.9, 1.0) },
       uVhsStrength: { value: 1.0 },
-      uChromaticAberration: { value: 0.02 },
+      uChromaticAberration: { value: 0.025 },
       uScanlineIntensity: { value: 0.3 },
       uPixelSize: { value: 256.0 },
       uEnvMap: { value: null },

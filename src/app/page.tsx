@@ -1,62 +1,56 @@
 "use client"
 
 import { Canvas } from '@react-three/fiber'
+import * as THREE from 'three'
 import TimelineSystem from '@/core/timeline/TimelineSystem'
 import ScrollManager from '@/core/timeline/ScrollManager'
 import CameraRig from '@/core/camera/CameraRig'
 import MainScene from '@/scenes/MainScene'
-import { Environment } from '@react-three/drei'
 import Overlay from '@/ui/Overlay'
-import RenderPipeline from '@/ui/components/RenderPipeline'
-import { EffectComposer, Bloom, ChromaticAberration, Vignette } from '@react-three/postprocessing'
-import * as THREE from 'three'
+
+// ✅ Atmosphere
+import { AtmosphereProvider } from '@/engine/atmosphere/AtmosphereContext'
+import { AtmosphereSystem } from '@/engine/atmosphere/AtmosphereSystem'
+import { bladeRunnerAmbient } from '@/engine/presets/bladeRunnerAmbient'
+
+const ATMOSPHERE_PRESET = bladeRunnerAmbient
 
 export default function Page() {
   return (
     <>
-      {/* UI scroll space */}
       <div className="h-[400vh]" />
 
-      {/* 🛰 EXTERNAL ORCHESTRATOR */}
       <ScrollManager />
       <Overlay />
 
-
       <Canvas
+        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        dpr={[1, 1.5]}
+        shadows="soft"
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           width: '100vw',
           height: '100vh',
-          zIndex: -1 // Ensure it stays behind UI
+          zIndex: -1
         }}
-        camera={{ position: [10, 0.65, 0] }}>
+        camera={{ position: [0, 0.65, 0] }}
+      >
+        {/* ✅ MUST BE INSIDE CANVAS */}
+        <AtmosphereProvider defaultPreset={ATMOSPHERE_PRESET}>
 
+          {/* 🌌 FULL SYSTEM (SELF-CONTAINED) */}
+          <AtmosphereSystem />
 
+          {/* 🧠 SYSTEMS */}
+          <TimelineSystem />
+          <CameraRig />
 
-        {/* 🌍 GLOBAL LIGHTING */}
-        <Environment preset="city" />
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} />
-        <TimelineSystem />
-        <CameraRig />
-        <MainScene />
+          {/* 🎬 SCENES */}
+          <MainScene />
 
-        {/* 🎬 MAIN POSTPROCESSING */}
-        <EffectComposer enableNormalPass>
-          <Bloom
-            intensity={1.5}
-            mipmapBlur
-            luminanceThreshold={1.0}
-            luminanceSmoothing={0.6}
-          />
-          <ChromaticAberration
-            offset={new THREE.Vector2(0.0012, 0.0012)}
-          />
-          <Vignette eskil={false} offset={0.5} darkness={0.5} />
-          <RenderPipeline opacity={0.12} />
-        </EffectComposer>
+        </AtmosphereProvider>
       </Canvas>
     </>
   )

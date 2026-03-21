@@ -90,7 +90,7 @@ class VHSEffectImpl extends Effect {
     )
   }
 
-  update(_: any, __: any, deltaTime: number) {
+  update(_: unknown, __: unknown, deltaTime: number) {
     const t = this.uniforms.get('time')
     if (t) t.value += deltaTime
   }

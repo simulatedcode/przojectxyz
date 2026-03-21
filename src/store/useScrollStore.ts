@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 
-type ScrollState = {
+export type ScrollState = {
   progress: number
   setProgress: (p: number) => void
 }
